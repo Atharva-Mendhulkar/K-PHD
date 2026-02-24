@@ -49,7 +49,7 @@ graph TD
 
     subgraph "Layer 2: The Bridge (IPC)"
         N[Netlink Socket]
-        P[/proc/kphd_stats]
+        P["/proc/kphd_stats"]
     end
 
     subgraph "Layer 1: Kernel Space (The Tracker)"
