@@ -126,10 +126,10 @@ Now you can safely test the module:
 # Type 'poweroff -f' to exit the sandbox
 ```
 
-### Why Alternative 2 is the best:
+### Why Alternative 2 is the best:a
 - No ISO downloads.
 - No OS installations.
 - Takes 500MB of RAM and boots in 2 seconds.
-- Uses your *actual* host kernel, meaning `kphd.ko` represents a 100% perfect match without version conflicts.
+- Uses your *actual* host kernel, meaning `kphd.ko` represents  100% perfect match without version conflicts.
 
 **Would you like me to automatically run the scripts to set up Alternative 2 for you right now?**
