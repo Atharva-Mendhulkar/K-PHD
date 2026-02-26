@@ -134,7 +134,25 @@ Developing kernel modules requires strict isolation. A single memory leak in ker
 
 ---
 
-## **6. Development Implementation Roadmap**
+## **6. Current Progress**
+
+| Phase | Description | Status |
+|:---:|---|:---:|
+| 1 | LKM Scaffolding (`module_init`, `module_exit`, `Makefile`) | ✅ Complete |
+| 2 | Hooking the Scheduler (`sched_wakeup`, `sched_switch`) | ✅ Complete |
+| 3 | Data Structures & Concurrency (Hash Table, Spinlocks) | ✅ Complete |
+| 4 | Exporting Data (`/proc/kphd_stats`, `seq_file`) | 🔄 In Progress |
+| 5 | Netlink Integration (Real-time streaming) | ⬜ Pending |
+| 6 | Userspace Daemon (EMA predictor) | ⬜ Pending |
+| 7 | Stress Testing & Validation | ⬜ Pending |
+
+### Key Milestones
+- **2026-02-26:** Phase 1 verified — `kphd.ko` loads/unloads cleanly in QEMU sandbox.
+- **Environment:** Arch Linux (Limine/UKI), QEMU initramfs sandbox for safe kernel testing.
+
+---
+
+## **7. Development Implementation Roadmap**
 
 The complete, detailed roadmap has been broken out into a separate document. Please refer to [`project_roadmap.md`](project_roadmap.md) for the phased approach and specific objectives.
 

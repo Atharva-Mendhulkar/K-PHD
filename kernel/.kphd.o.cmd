@@ -32,9 +32,11 @@ deps_kphd.o := \
     $(wildcard include/config/SHADOW_CALL_STACK) \
     $(wildcard include/config/KCOV) \
     $(wildcard include/config/CC_HAS_TYPEOF_UNQUAL) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/init.h \
-    $(wildcard include/config/MEMORY_HOTPLUG) \
-    $(wildcard include/config/HAVE_ARCH_PREL32_RELOCATIONS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/hashtable.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/list.h \
+    $(wildcard include/config/LIST_HARDENED) \
+    $(wildcard include/config/DEBUG_LIST) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/container_of.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/build_bug.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/compiler.h \
     $(wildcard include/config/TRACE_BRANCH_PROFILING) \
@@ -71,39 +73,6 @@ deps_kphd.o := \
     $(wildcard include/config/KCSAN) \
     $(wildcard include/config/KCSAN_WEAK_MEMORY) \
     $(wildcard include/config/KCSAN_IGNORE_ATOMICS) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/stringify.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/module.h \
-    $(wildcard include/config/MODULES) \
-    $(wildcard include/config/SYSFS) \
-    $(wildcard include/config/MODULES_TREE_LOOKUP) \
-    $(wildcard include/config/LIVEPATCH) \
-    $(wildcard include/config/STACKTRACE_BUILD_ID) \
-    $(wildcard include/config/ARCH_USES_CFI_TRAPS) \
-    $(wildcard include/config/MODULE_SIG) \
-    $(wildcard include/config/GENERIC_BUG) \
-    $(wildcard include/config/KALLSYMS) \
-    $(wildcard include/config/SMP) \
-    $(wildcard include/config/TRACEPOINTS) \
-    $(wildcard include/config/TREE_SRCU) \
-    $(wildcard include/config/BPF_EVENTS) \
-    $(wildcard include/config/DEBUG_INFO_BTF_MODULES) \
-    $(wildcard include/config/JUMP_LABEL) \
-    $(wildcard include/config/TRACING) \
-    $(wildcard include/config/EVENT_TRACING) \
-    $(wildcard include/config/DYNAMIC_FTRACE) \
-    $(wildcard include/config/KPROBES) \
-    $(wildcard include/config/HAVE_STATIC_CALL_INLINE) \
-    $(wildcard include/config/KUNIT) \
-    $(wildcard include/config/PRINTK_INDEX) \
-    $(wildcard include/config/MODULE_UNLOAD) \
-    $(wildcard include/config/CONSTRUCTORS) \
-    $(wildcard include/config/FUNCTION_ERROR_INJECTION) \
-    $(wildcard include/config/DYNAMIC_DEBUG_CORE) \
-    $(wildcard include/config/MITIGATION_RETPOLINE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/list.h \
-    $(wildcard include/config/LIST_HARDENED) \
-    $(wildcard include/config/DEBUG_LIST) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/container_of.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/poison.h \
     $(wildcard include/config/ILLEGAL_POINTER_VALUE) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/const.h \
@@ -111,9 +80,11 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/const.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/barrier.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/alternative.h \
+    $(wildcard include/config/SMP) \
     $(wildcard include/config/CALL_THUNKS) \
     $(wildcard include/config/MITIGATION_ITS) \
     $(wildcard include/config/MITIGATION_RETHUNK) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/stringify.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/objtool.h \
     $(wildcard include/config/FRAME_POINTER) \
     $(wildcard include/config/NOINSTR_VALIDATION) \
@@ -121,8 +92,10 @@ deps_kphd.o := \
     $(wildcard include/config/MITIGATION_SRSO) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/objtool_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/asm.h \
+    $(wildcard include/config/KPROBES) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/extable_fixup_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/bug.h \
+    $(wildcard include/config/GENERIC_BUG) \
     $(wildcard include/config/DEBUG_BUGVERBOSE) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/instrumentation.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bug.h \
@@ -138,7 +111,12 @@ deps_kphd.o := \
     $(wildcard include/config/CONSOLE_LOGLEVEL_QUIET) \
     $(wildcard include/config/EARLY_PRINTK) \
     $(wildcard include/config/PRINTK) \
+    $(wildcard include/config/PRINTK_INDEX) \
     $(wildcard include/config/DYNAMIC_DEBUG) \
+    $(wildcard include/config/DYNAMIC_DEBUG_CORE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/init.h \
+    $(wildcard include/config/MEMORY_HOTPLUG) \
+    $(wildcard include/config/HAVE_ARCH_PREL32_RELOCATIONS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kern_levels.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/linkage.h \
     $(wildcard include/config/ARCH_USE_SYM_ANNOTATIONS) \
@@ -147,6 +125,7 @@ deps_kphd.o := \
     $(wildcard include/config/GENDWARFKSYMS) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/linkage.h \
     $(wildcard include/config/CALL_PADDING) \
+    $(wildcard include/config/MITIGATION_RETPOLINE) \
     $(wildcard include/config/MITIGATION_SLS) \
     $(wildcard include/config/FUNCTION_PADDING_BYTES) \
     $(wildcard include/config/UML) \
@@ -184,6 +163,7 @@ deps_kphd.o := \
     $(wildcard include/config/LOCKDEP) \
     $(wildcard include/config/LOCK_STAT) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/dynamic_debug.h \
+    $(wildcard include/config/JUMP_LABEL) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/jump_label.h \
     $(wildcard include/config/HAVE_ARCH_JUMP_LABEL_RELATIVE) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cleanup.h \
@@ -196,47 +176,106 @@ deps_kphd.o := \
     $(wildcard include/config/HAVE_JUMP_LABEL_HACK) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/nops.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/barrier.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/stat.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/stat.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/stat.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time.h \
-    $(wildcard include/config/POSIX_TIMERS) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cache.h \
-    $(wildcard include/config/ARCH_HAS_CACHE_LINE_SIZE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kernel.h \
+    $(wildcard include/config/PREEMPT_VOLUNTARY_BUILD) \
+    $(wildcard include/config/PREEMPT_DYNAMIC) \
+    $(wildcard include/config/HAVE_PREEMPT_DYNAMIC_CALL) \
+    $(wildcard include/config/HAVE_PREEMPT_DYNAMIC_KEY) \
+    $(wildcard include/config/PREEMPT_) \
+    $(wildcard include/config/DEBUG_ATOMIC_SLEEP) \
+    $(wildcard include/config/MMU) \
+    $(wildcard include/config/PROVE_LOCKING) \
+    $(wildcard include/config/TRACING) \
+    $(wildcard include/config/DYNAMIC_FTRACE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/align.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/align.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/array_size.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bitops.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/typecheck.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/kernel.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/sysinfo.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/cache.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cache.h \
-    $(wildcard include/config/X86_L1_CACHE_SHIFT) \
-    $(wildcard include/config/X86_INTERNODE_CACHE_SHIFT) \
-    $(wildcard include/config/X86_VSMP) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/math64.h \
-    $(wildcard include/config/ARCH_SUPPORTS_INT128) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/generic-non-atomic.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/bitops.h \
+    $(wildcard include/config/X86_CMOV) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/rmwcc.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/sched.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/arch_hweight.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpufeatures.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/const_hweight.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-atomic.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/instrumented.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kmsan-checks.h \
+    $(wildcard include/config/KMSAN) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-non-atomic.h \
+    $(wildcard include/config/KCSAN_ASSUME_PLAIN_WRITES_ATOMIC) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-lock.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/le.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/ext2-atomic-setbit.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/hex.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kstrtox.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/log2.h \
+    $(wildcard include/config/ARCH_HAS_ILOG2_U32) \
+    $(wildcard include/config/ARCH_HAS_ILOG2_U64) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/math.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/div64.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/div64.h \
     $(wildcard include/config/CC_OPTIMIZE_FOR_PERFORMANCE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/math64.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time64.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/time64.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/time.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/time_types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time32.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/timex.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/timex.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/timex.h \
-    $(wildcard include/config/X86_TSC) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/processor.h \
-    $(wildcard include/config/X86_VMX_FEATURE_NAMES) \
-    $(wildcard include/config/X86_IOPL_IOPERM) \
-    $(wildcard include/config/VM86) \
-    $(wildcard include/config/X86_USER_SHADOW_STACK) \
-    $(wildcard include/config/X86_DEBUG_FPU) \
-    $(wildcard include/config/USE_X86_SEG_SUPPORT) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/minmax.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sprintf.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/static_call_types.h \
+    $(wildcard include/config/HAVE_STATIC_CALL) \
+    $(wildcard include/config/HAVE_STATIC_CALL_INLINE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/instruction_pointer.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/util_macros.h \
+    $(wildcard include/config/FOO_SUSPEND) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/wordpart.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/hash.h \
+    $(wildcard include/config/HAVE_ARCH_HASH) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rculist.h \
+    $(wildcard include/config/PROVE_RCU_LIST) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rcupdate.h \
+    $(wildcard include/config/PREEMPT_RCU) \
+    $(wildcard include/config/TINY_RCU) \
+    $(wildcard include/config/RCU_STRICT_GRACE_PERIOD) \
+    $(wildcard include/config/RCU_LAZY) \
+    $(wildcard include/config/RCU_STALL_COMMON) \
+    $(wildcard include/config/NO_HZ_FULL) \
+    $(wildcard include/config/GENERIC_ENTRY) \
+    $(wildcard include/config/VIRT_XFER_TO_GUEST_WORK) \
+    $(wildcard include/config/RCU_NOCB_CPU) \
+    $(wildcard include/config/TASKS_RCU_GENERIC) \
+    $(wildcard include/config/TASKS_RCU) \
+    $(wildcard include/config/TASKS_TRACE_RCU) \
+    $(wildcard include/config/TASKS_RUDE_RCU) \
+    $(wildcard include/config/PREEMPT_RT) \
+    $(wildcard include/config/TREE_RCU) \
+    $(wildcard include/config/DEBUG_OBJECTS_RCU_HEAD) \
+    $(wildcard include/config/HOTPLUG_CPU) \
+    $(wildcard include/config/PROVE_RCU) \
+    $(wildcard include/config/PREEMPTION) \
+    $(wildcard include/config/ARCH_WEAK_RELEASE_ACQUIRE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/atomic.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cmpxchg.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cmpxchg_64.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/atomic64_64.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-arch-fallback.h \
+    $(wildcard include/config/GENERIC_ATOMIC64) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-long.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-instrumented.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/irqflags.h \
+    $(wildcard include/config/TRACE_IRQFLAGS) \
+    $(wildcard include/config/IRQSOFF_TRACER) \
+    $(wildcard include/config/PREEMPT_TRACER) \
+    $(wildcard include/config/DEBUG_IRQFLAGS) \
+    $(wildcard include/config/TRACE_IRQFLAGS_SUPPORT) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/irqflags_types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/irqflags.h \
+    $(wildcard include/config/PARAVIRT) \
     $(wildcard include/config/PARAVIRT_XXL) \
-    $(wildcard include/config/CPU_SUP_AMD) \
-    $(wildcard include/config/XEN) \
+    $(wildcard include/config/DEBUG_ENTRY) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/processor-flags.h \
+    $(wildcard include/config/VM86) \
     $(wildcard include/config/MITIGATION_PAGE_TABLE_ISOLATION) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/processor-flags.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/mem_encrypt.h \
@@ -246,53 +285,17 @@ deps_kphd.o := \
     $(wildcard include/config/X86_MEM_ENCRYPT) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cc_platform.h \
     $(wildcard include/config/ARCH_HAS_CC_PLATFORM) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/math_emu.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/ptrace.h \
-    $(wildcard include/config/PARAVIRT) \
-    $(wildcard include/config/IA32_EMULATION) \
-    $(wildcard include/config/X86_DEBUGCTLMSR) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/segment.h \
-    $(wildcard include/config/XEN_PV) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_types.h \
-    $(wildcard include/config/PHYSICAL_START) \
-    $(wildcard include/config/PHYSICAL_ALIGN) \
-    $(wildcard include/config/DYNAMIC_PHYSICAL_MASK) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/page.h \
-    $(wildcard include/config/PAGE_SHIFT) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_64_types.h \
-    $(wildcard include/config/KASAN) \
-    $(wildcard include/config/RANDOMIZE_BASE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/kaslr.h \
-    $(wildcard include/config/RANDOMIZE_MEMORY) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ptrace.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ptrace-abi.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/paravirt_types.h \
-    $(wildcard include/config/ZERO_CALL_USED_REGS) \
-    $(wildcard include/config/PARAVIRT_DEBUG) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/desc_defs.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/pgtable_types.h \
-    $(wildcard include/config/X86_INTEL_MEMORY_PROTECTION_KEYS) \
-    $(wildcard include/config/X86_PAE) \
-    $(wildcard include/config/MEM_SOFT_DIRTY) \
-    $(wildcard include/config/HAVE_ARCH_USERFAULTFD_WP) \
-    $(wildcard include/config/PGTABLE_LEVELS) \
-    $(wildcard include/config/PROC_FS) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/pgtable_64_types.h \
-    $(wildcard include/config/KMSAN) \
-    $(wildcard include/config/DEBUG_KMAP_LOCAL_FORCE_MAP) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/sparsemem.h \
-    $(wildcard include/config/SPARSEMEM) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/nospec-branch.h \
     $(wildcard include/config/CALL_THUNKS_DEBUG) \
     $(wildcard include/config/MITIGATION_CALL_DEPTH_TRACKING) \
     $(wildcard include/config/MITIGATION_IBPB_ENTRY) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/static_key.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpufeatures.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/msr-index.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/unwind_hints.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/orc_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/percpu.h \
     $(wildcard include/config/CC_HAS_NAMED_AS) \
+    $(wildcard include/config/USE_X86_SEG_SUPPORT) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/percpu.h \
     $(wildcard include/config/DEBUG_PREEMPT) \
     $(wildcard include/config/HAVE_SETUP_PER_CPU_AREA) \
@@ -304,67 +307,47 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/asm-offsets.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/generated/asm-offsets.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/GEN-for-each-reg.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/proto.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ldt.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/sigcontext.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/current.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpuid/api.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpuid/types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/string.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/string_64.h \
-    $(wildcard include/config/ARCH_HAS_UACCESS_FLUSHCACHE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/segment.h \
+    $(wildcard include/config/XEN_PV) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cache.h \
+    $(wildcard include/config/X86_L1_CACHE_SHIFT) \
+    $(wildcard include/config/X86_INTERNODE_CACHE_SHIFT) \
+    $(wildcard include/config/X86_VSMP) \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/paravirt.h \
     $(wildcard include/config/PARAVIRT_SPINLOCKS) \
-    $(wildcard include/config/DEBUG_ENTRY) \
+    $(wildcard include/config/X86_IOPL_IOPERM) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/paravirt_types.h \
+    $(wildcard include/config/ZERO_CALL_USED_REGS) \
+    $(wildcard include/config/PARAVIRT_DEBUG) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/desc_defs.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/pgtable_types.h \
+    $(wildcard include/config/X86_INTEL_MEMORY_PROTECTION_KEYS) \
+    $(wildcard include/config/X86_PAE) \
+    $(wildcard include/config/MEM_SOFT_DIRTY) \
+    $(wildcard include/config/HAVE_ARCH_USERFAULTFD_WP) \
+    $(wildcard include/config/PGTABLE_LEVELS) \
+    $(wildcard include/config/PROC_FS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_types.h \
+    $(wildcard include/config/PHYSICAL_START) \
+    $(wildcard include/config/PHYSICAL_ALIGN) \
+    $(wildcard include/config/DYNAMIC_PHYSICAL_MASK) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/page.h \
+    $(wildcard include/config/PAGE_SHIFT) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_64_types.h \
+    $(wildcard include/config/KASAN) \
+    $(wildcard include/config/RANDOMIZE_BASE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/kaslr.h \
+    $(wildcard include/config/RANDOMIZE_MEMORY) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/pgtable_64_types.h \
+    $(wildcard include/config/DEBUG_KMAP_LOCAL_FORCE_MAP) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/sparsemem.h \
+    $(wildcard include/config/SPARSEMEM) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bug.h \
     $(wildcard include/config/BUG_ON_DATA_CORRUPTION) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cpumask.h \
     $(wildcard include/config/FORCE_NR_CPUS) \
-    $(wildcard include/config/HOTPLUG_CPU) \
     $(wildcard include/config/DEBUG_PER_CPU_MAPS) \
     $(wildcard include/config/CPUMASK_OFFSTACK) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kernel.h \
-    $(wildcard include/config/PREEMPT_VOLUNTARY_BUILD) \
-    $(wildcard include/config/PREEMPT_DYNAMIC) \
-    $(wildcard include/config/HAVE_PREEMPT_DYNAMIC_CALL) \
-    $(wildcard include/config/HAVE_PREEMPT_DYNAMIC_KEY) \
-    $(wildcard include/config/PREEMPT_) \
-    $(wildcard include/config/DEBUG_ATOMIC_SLEEP) \
-    $(wildcard include/config/MMU) \
-    $(wildcard include/config/PROVE_LOCKING) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/align.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/align.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/array_size.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bitops.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/typecheck.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/generic-non-atomic.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/bitops.h \
-    $(wildcard include/config/X86_CMOV) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/rmwcc.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/sched.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/arch_hweight.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/const_hweight.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-atomic.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/instrumented.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kmsan-checks.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-non-atomic.h \
-    $(wildcard include/config/KCSAN_ASSUME_PLAIN_WRITES_ATOMIC) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/instrumented-lock.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/le.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/bitops/ext2-atomic-setbit.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/hex.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kstrtox.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/log2.h \
-    $(wildcard include/config/ARCH_HAS_ILOG2_U32) \
-    $(wildcard include/config/ARCH_HAS_ILOG2_U64) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/minmax.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sprintf.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/static_call_types.h \
-    $(wildcard include/config/HAVE_STATIC_CALL) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/instruction_pointer.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/util_macros.h \
-    $(wildcard include/config/FOO_SUSPEND) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/wordpart.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bitmap.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/errno.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/errno.h \
@@ -373,21 +356,14 @@ deps_kphd.o := \
     $(wildcard include/config/BINARY_PRINTF) \
     $(wildcard include/config/FORTIFY_SOURCE) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/string.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/string.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/string_64.h \
+    $(wildcard include/config/ARCH_HAS_UACCESS_FLUSHCACHE) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/fortify-string.h \
     $(wildcard include/config/CC_HAS_KASAN_MEMINTRINSIC_PREFIX) \
-    $(wildcard include/config/GENERIC_ENTRY) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bitfield.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bitmap-str.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cpumask_types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/atomic.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cmpxchg.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cmpxchg_64.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/atomic64_64.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-arch-fallback.h \
-    $(wildcard include/config/GENERIC_ATOMIC64) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-long.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/atomic/atomic-instrumented.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/gfp_types.h \
     $(wildcard include/config/KASAN_HW_TAGS) \
     $(wildcard include/config/SLAB_OBJ_EXT) \
@@ -409,81 +385,6 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/irqnr.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/irqnr.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/frame.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_64.h \
-    $(wildcard include/config/DEBUG_VIRTUAL) \
-    $(wildcard include/config/X86_VSYSCALL_EMULATION) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/range.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/memory_model.h \
-    $(wildcard include/config/FLATMEM) \
-    $(wildcard include/config/SPARSEMEM_VMEMMAP) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/pfn.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/getorder.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/special_insns.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/irqflags.h \
-    $(wildcard include/config/TRACE_IRQFLAGS) \
-    $(wildcard include/config/PREEMPT_RT) \
-    $(wildcard include/config/IRQSOFF_TRACER) \
-    $(wildcard include/config/PREEMPT_TRACER) \
-    $(wildcard include/config/DEBUG_IRQFLAGS) \
-    $(wildcard include/config/TRACE_IRQFLAGS_SUPPORT) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/irqflags_types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/irqflags.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/fpu/types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/vmxfeatures.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/vdso/processor.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/shstk.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/personality.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/personality.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/tsc.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpufeature.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/generated/asm/cpufeaturemasks.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/msr.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpumask.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/msr.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/shared/msr.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/percpu.h \
-    $(wildcard include/config/RANDOM_KMALLOC_CACHES) \
-    $(wildcard include/config/PAGE_SIZE_4KB) \
-    $(wildcard include/config/NEED_PER_CPU_PAGE_FIRST_CHUNK) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/alloc_tag.h \
-    $(wildcard include/config/MEM_ALLOC_PROFILING_DEBUG) \
-    $(wildcard include/config/MEM_ALLOC_PROFILING) \
-    $(wildcard include/config/MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/codetag.h \
-    $(wildcard include/config/CODE_TAGGING) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/preempt.h \
-    $(wildcard include/config/PREEMPT_COUNT) \
-    $(wildcard include/config/TRACE_PREEMPT_TOGGLE) \
-    $(wildcard include/config/PREEMPTION) \
-    $(wildcard include/config/PREEMPT_NOTIFIERS) \
-    $(wildcard include/config/PREEMPT_NONE) \
-    $(wildcard include/config/PREEMPT_VOLUNTARY) \
-    $(wildcard include/config/PREEMPT) \
-    $(wildcard include/config/PREEMPT_LAZY) \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/preempt.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/smp.h \
-    $(wildcard include/config/UP_LATE_INIT) \
-    $(wildcard include/config/CSD_LOCK_WAIT_DEBUG) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/smp_types.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/llist.h \
-    $(wildcard include/config/ARCH_HAVE_NMI_SAFE_CMPXCHG) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/thread_info.h \
-    $(wildcard include/config/THREAD_INFO_IN_TASK) \
-    $(wildcard include/config/ARCH_HAS_PREEMPT_LAZY) \
-    $(wildcard include/config/HAVE_ARCH_WITHIN_STACK_FRAMES) \
-    $(wildcard include/config/SH) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/restart_block.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/thread_info.h \
-    $(wildcard include/config/X86_FRED) \
-    $(wildcard include/config/COMPAT) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/thread_info_tif.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/smp.h \
-    $(wildcard include/config/DEBUG_NMI_SELFTEST) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/mmdebug.h \
-    $(wildcard include/config/DEBUG_VM) \
-    $(wildcard include/config/DEBUG_VM_IRQSOFF) \
-    $(wildcard include/config/DEBUG_VM_PGFLAGS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched.h \
     $(wildcard include/config/VIRT_CPU_ACCOUNTING_NATIVE) \
     $(wildcard include/config/SCHED_INFO) \
@@ -495,13 +396,13 @@ deps_kphd.o := \
     $(wildcard include/config/UCLAMP_TASK) \
     $(wildcard include/config/UCLAMP_BUCKETS_COUNT) \
     $(wildcard include/config/KMAP_LOCAL) \
+    $(wildcard include/config/THREAD_INFO_IN_TASK) \
+    $(wildcard include/config/MEM_ALLOC_PROFILING) \
     $(wildcard include/config/SCHED_CLASS_EXT) \
     $(wildcard include/config/CGROUP_SCHED) \
     $(wildcard include/config/CFS_BANDWIDTH) \
+    $(wildcard include/config/PREEMPT_NOTIFIERS) \
     $(wildcard include/config/BLK_DEV_IO_TRACE) \
-    $(wildcard include/config/PREEMPT_RCU) \
-    $(wildcard include/config/TASKS_RCU) \
-    $(wildcard include/config/TASKS_TRACE_RCU) \
     $(wildcard include/config/MEMCG_V1) \
     $(wildcard include/config/LRU_GEN) \
     $(wildcard include/config/COMPAT_BRK) \
@@ -516,7 +417,6 @@ deps_kphd.o := \
     $(wildcard include/config/STACKPROTECTOR) \
     $(wildcard include/config/ARCH_HAS_SCALED_CPUTIME) \
     $(wildcard include/config/VIRT_CPU_ACCOUNTING_GEN) \
-    $(wildcard include/config/NO_HZ_FULL) \
     $(wildcard include/config/POSIX_CPUTIMERS) \
     $(wildcard include/config/POSIX_CPU_TIMERS_TASK_WORK) \
     $(wildcard include/config/KEYS) \
@@ -533,6 +433,7 @@ deps_kphd.o := \
     $(wildcard include/config/CPUSETS) \
     $(wildcard include/config/X86_CPU_RESCTRL) \
     $(wildcard include/config/FUTEX) \
+    $(wildcard include/config/COMPAT) \
     $(wildcard include/config/PERF_EVENTS) \
     $(wildcard include/config/NUMA_BALANCING) \
     $(wildcard include/config/RSEQ) \
@@ -540,11 +441,13 @@ deps_kphd.o := \
     $(wildcard include/config/SCHED_MM_CID) \
     $(wildcard include/config/FAULT_INJECTION) \
     $(wildcard include/config/LATENCYTOP) \
+    $(wildcard include/config/KUNIT) \
     $(wildcard include/config/FUNCTION_GRAPH_TRACER) \
     $(wildcard include/config/MEMCG) \
     $(wildcard include/config/UPROBES) \
     $(wildcard include/config/BCACHE) \
     $(wildcard include/config/VMAP_STACK) \
+    $(wildcard include/config/LIVEPATCH) \
     $(wildcard include/config/SECURITY) \
     $(wildcard include/config/BPF_SYSCALL) \
     $(wildcard include/config/KSTACK_ERASE) \
@@ -558,7 +461,70 @@ deps_kphd.o := \
     $(wildcard include/config/USER_EVENTS) \
     $(wildcard include/config/UNWIND_USER) \
     $(wildcard include/config/SCHED_PROXY_EXEC) \
+    $(wildcard include/config/MEM_ALLOC_PROFILING_DEBUG) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/sched.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/current.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cache.h \
+    $(wildcard include/config/ARCH_HAS_CACHE_LINE_SIZE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/cache.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/processor.h \
+    $(wildcard include/config/X86_VMX_FEATURE_NAMES) \
+    $(wildcard include/config/X86_USER_SHADOW_STACK) \
+    $(wildcard include/config/X86_DEBUG_FPU) \
+    $(wildcard include/config/CPU_SUP_AMD) \
+    $(wildcard include/config/XEN) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/math_emu.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/ptrace.h \
+    $(wildcard include/config/IA32_EMULATION) \
+    $(wildcard include/config/X86_DEBUGCTLMSR) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ptrace.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ptrace-abi.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/proto.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/ldt.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/sigcontext.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpuid/api.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpuid/types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/page_64.h \
+    $(wildcard include/config/DEBUG_VIRTUAL) \
+    $(wildcard include/config/X86_VSYSCALL_EMULATION) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/range.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/memory_model.h \
+    $(wildcard include/config/FLATMEM) \
+    $(wildcard include/config/SPARSEMEM_VMEMMAP) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/pfn.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/getorder.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/special_insns.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/fpu/types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/vmxfeatures.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/vdso/processor.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/shstk.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/personality.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/personality.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/math64.h \
+    $(wildcard include/config/ARCH_SUPPORTS_INT128) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/math64.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/thread_info.h \
+    $(wildcard include/config/ARCH_HAS_PREEMPT_LAZY) \
+    $(wildcard include/config/HAVE_ARCH_WITHIN_STACK_FRAMES) \
+    $(wildcard include/config/SH) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/restart_block.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/thread_info.h \
+    $(wildcard include/config/X86_FRED) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpufeature.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/generated/asm/cpufeaturemasks.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/thread_info_tif.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/preempt.h \
+    $(wildcard include/config/PREEMPT_COUNT) \
+    $(wildcard include/config/TRACE_PREEMPT_TOGGLE) \
+    $(wildcard include/config/PREEMPT_NONE) \
+    $(wildcard include/config/PREEMPT_VOLUNTARY) \
+    $(wildcard include/config/PREEMPT) \
+    $(wildcard include/config/PREEMPT_LAZY) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/preempt.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/smp_types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/llist.h \
+    $(wildcard include/config/ARCH_HAVE_NMI_SAFE_CMPXCHG) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/pid_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sem_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/shm.h \
@@ -580,6 +546,7 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/refcount_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/resource.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/resource.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/time_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/generated/uapi/asm/resource.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/resource.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/asm-generic/resource.h \
@@ -598,6 +565,12 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bottom_half.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/lockdep.h \
     $(wildcard include/config/DEBUG_LOCKING_API_SELFTESTS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/smp.h \
+    $(wildcard include/config/UP_LATE_INIT) \
+    $(wildcard include/config/CSD_LOCK_WAIT_DEBUG) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/smp.h \
+    $(wildcard include/config/DEBUG_NMI_SELFTEST) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/cpumask.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/generated/asm/mmiowb.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/mmiowb.h \
     $(wildcard include/config/MMIOWB) \
@@ -649,6 +622,7 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/task_io_accounting.h \
     $(wildcard include/config/TASK_IO_ACCOUNTING) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/posix-timers_types.h \
+    $(wildcard include/config/POSIX_TIMERS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/rseq.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/seqlock_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kcsan.h \
@@ -657,6 +631,7 @@ deps_kphd.o := \
     $(wildcard include/config/RV_REACTORS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/uidgid_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/tracepoint-defs.h \
+    $(wildcard include/config/TRACEPOINTS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/unwind_deferred_types.h \
   /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/generated/asm/kmap_size.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/kmap_size.h \
@@ -665,11 +640,66 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/ext.h \
     $(wildcard include/config/EXT_GROUP_SCHED) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rhashtable-types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/alloc_tag.h \
+    $(wildcard include/config/MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/codetag.h \
+    $(wildcard include/config/MODULES) \
+    $(wildcard include/config/CODE_TAGGING) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/mutex.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/debug_locks.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/workqueue_types.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/context_tracking_irq.h \
+    $(wildcard include/config/CONTEXT_TRACKING_IDLE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rcutree.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/ktime.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/jiffies.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time64.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/time64.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/time.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/time32.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/timex.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/timex.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/timex.h \
+    $(wildcard include/config/X86_TSC) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/tsc.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/msr.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/msr.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/shared/msr.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/percpu.h \
+    $(wildcard include/config/RANDOM_KMALLOC_CACHES) \
+    $(wildcard include/config/PAGE_SIZE_4KB) \
+    $(wildcard include/config/NEED_PER_CPU_PAGE_FIRST_CHUNK) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/mmdebug.h \
+    $(wildcard include/config/DEBUG_VM) \
+    $(wildcard include/config/DEBUG_VM_IRQSOFF) \
+    $(wildcard include/config/DEBUG_VM_PGFLAGS) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/time32.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/time.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/jiffies.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/generated/timeconst.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/ktime.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/timekeeping.h \
+    $(wildcard include/config/POSIX_AUX_CLOCKS) \
+    $(wildcard include/config/GENERIC_CMOS_UPDATE) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/clocksource_ids.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/module.h \
+    $(wildcard include/config/SYSFS) \
+    $(wildcard include/config/MODULES_TREE_LOOKUP) \
+    $(wildcard include/config/STACKTRACE_BUILD_ID) \
+    $(wildcard include/config/ARCH_USES_CFI_TRAPS) \
+    $(wildcard include/config/MODULE_SIG) \
+    $(wildcard include/config/KALLSYMS) \
+    $(wildcard include/config/TREE_SRCU) \
+    $(wildcard include/config/BPF_EVENTS) \
+    $(wildcard include/config/DEBUG_INFO_BTF_MODULES) \
+    $(wildcard include/config/EVENT_TRACING) \
+    $(wildcard include/config/MODULE_UNLOAD) \
+    $(wildcard include/config/CONSTRUCTORS) \
+    $(wildcard include/config/FUNCTION_ERROR_INJECTION) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/stat.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/uapi/asm/stat.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/stat.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/uidgid.h \
     $(wildcard include/config/MULTIUSER) \
     $(wildcard include/config/USER_NS) \
@@ -734,22 +764,6 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kref.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/refcount.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rbtree.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rcupdate.h \
-    $(wildcard include/config/TINY_RCU) \
-    $(wildcard include/config/RCU_STRICT_GRACE_PERIOD) \
-    $(wildcard include/config/RCU_LAZY) \
-    $(wildcard include/config/RCU_STALL_COMMON) \
-    $(wildcard include/config/VIRT_XFER_TO_GUEST_WORK) \
-    $(wildcard include/config/RCU_NOCB_CPU) \
-    $(wildcard include/config/TASKS_RCU_GENERIC) \
-    $(wildcard include/config/TASKS_RUDE_RCU) \
-    $(wildcard include/config/TREE_RCU) \
-    $(wildcard include/config/DEBUG_OBJECTS_RCU_HEAD) \
-    $(wildcard include/config/PROVE_RCU) \
-    $(wildcard include/config/ARCH_WEAK_RELEASE_ACQUIRE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/context_tracking_irq.h \
-    $(wildcard include/config/CONTEXT_TRACKING_IDLE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rcutree.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/maple_tree.h \
     $(wildcard include/config/MAPLE_RCU_DISABLED) \
     $(wildcard include/config/DEBUG_MAPLE_TREE) \
@@ -761,15 +775,6 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/uprobes.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/timer.h \
     $(wildcard include/config/DEBUG_OBJECTS_TIMERS) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/ktime.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/jiffies.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/jiffies.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/generated/timeconst.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/vdso/ktime.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/timekeeping.h \
-    $(wildcard include/config/POSIX_AUX_CLOCKS) \
-    $(wildcard include/config/GENERIC_CMOS_UPDATE) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/clocksource_ids.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/debugobjects.h \
     $(wildcard include/config/DEBUG_OBJECTS) \
     $(wildcard include/config/DEBUG_OBJECTS_FREE) \
@@ -882,8 +887,6 @@ deps_kphd.o := \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kdev_t.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/kdev_t.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/dcache.h \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rculist.h \
-    $(wildcard include/config/PROVE_RCU_LIST) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rculist_bl.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/list_bl.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/bit_spinlock.h \
@@ -891,8 +894,6 @@ deps_kphd.o := \
     $(wildcard include/config/ARCH_USE_CMPXCHG_LOCKREF) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/stringhash.h \
     $(wildcard include/config/DCACHE_WORD_ACCESS) \
-  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/hash.h \
-    $(wildcard include/config/HAVE_ARCH_HASH) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/path.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/list_lru.h \
   /usr/lib/modules/6.18.7-arch1-1/build/include/linux/shrinker.h \
@@ -1077,6 +1078,78 @@ deps_kphd.o := \
     $(wildcard include/config/UNWINDER_ORC) \
   /usr/lib/modules/6.18.7-arch1-1/build/include/asm-generic/module.h \
     $(wildcard include/config/HAVE_MOD_ARCH_SPECIFIC) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/tracepoint.h \
+    $(wildcard include/config/HAVE_SYSCALL_TRACEPOINTS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/rcupdate_trace.h \
+    $(wildcard include/config/TASKS_TRACE_RCU_READ_MB) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/static_call.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cpu.h \
+    $(wildcard include/config/GENERIC_CPU_DEVICES) \
+    $(wildcard include/config/PM_SLEEP_SMP) \
+    $(wildcard include/config/PM_SLEEP_SMP_NONZERO_CPU) \
+    $(wildcard include/config/ARCH_HAS_CPU_FINALIZE_INIT) \
+    $(wildcard include/config/CPU_MITIGATIONS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/node.h \
+    $(wildcard include/config/HMEM_REPORTING) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/device.h \
+    $(wildcard include/config/GENERIC_MSI_IRQ) \
+    $(wildcard include/config/ENERGY_MODEL) \
+    $(wildcard include/config/PINCTRL) \
+    $(wildcard include/config/ARCH_HAS_DMA_OPS) \
+    $(wildcard include/config/DMA_DECLARE_COHERENT) \
+    $(wildcard include/config/DMA_CMA) \
+    $(wildcard include/config/SWIOTLB) \
+    $(wildcard include/config/SWIOTLB_DYNAMIC) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_DEVICE) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU_ALL) \
+    $(wildcard include/config/DMA_OPS_BYPASS) \
+    $(wildcard include/config/DMA_NEED_SYNC) \
+    $(wildcard include/config/IOMMU_DMA) \
+    $(wildcard include/config/PM) \
+    $(wildcard include/config/PM_SLEEP) \
+    $(wildcard include/config/OF) \
+    $(wildcard include/config/DEVTMPFS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/dev_printk.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/energy_model.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/cpufreq.h \
+    $(wildcard include/config/CPU_FREQ) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/topology.h \
+    $(wildcard include/config/SCHED_CLUSTER) \
+    $(wildcard include/config/SCHED_MC) \
+    $(wildcard include/config/CPU_FREQ_GOV_SCHEDUTIL) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/idle.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/sd_flags.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/ioport.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/klist.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/pm.h \
+    $(wildcard include/config/VT_CONSOLE_SLEEP) \
+    $(wildcard include/config/CXL_SUSPEND) \
+    $(wildcard include/config/PM_CLK) \
+    $(wildcard include/config/PM_GENERIC_DOMAINS) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/device/bus.h \
+    $(wildcard include/config/ACPI) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/device/class.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/device/devres.h \
+    $(wildcard include/config/HAS_IOMEM) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/device/driver.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/device.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/pm_wakeup.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cpuhotplug.h \
+    $(wildcard include/config/HOTPLUG_CORE_SYNC_DEAD) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/cpuhplock.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/static_call.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/text-patching.h \
+    $(wildcard include/config/UML_X86) \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/trace/events/sched.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/kthread.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/sched/numa_balancing.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/linux/binfmts.h \
+    $(wildcard include/config/COREDUMP) \
+    $(wildcard include/config/BINFMT_MISC) \
+  /usr/lib/modules/6.18.7-arch1-1/build/arch/x86/include/asm/exec.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/uapi/linux/binfmts.h \
+  /usr/lib/modules/6.18.7-arch1-1/build/include/trace/define_trace.h \
 
 kphd.o: $(deps_kphd.o)
 

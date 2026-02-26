@@ -1,0 +1,25 @@
+#!/bin/busybox sh
+
+# Install all standard commands (ls, cat, dmesg, insmod, rmmod)
+/bin/busybox --install -s /bin
+
+# Mount necessary virtual filesystems
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+
+echo ""
+echo "======================================"
+echo " Welcome to the K-PHD Testing Sandbox "
+echo "======================================"
+echo "Commands to test your module:"
+echo "  insmod kphd.ko"
+echo "  dmesg | tail -n 2"
+echo "  rmmod kphd"
+echo ""
+echo "Type 'poweroff -f' to exit the VM."
+echo "======================================"
+echo ""
+
+# Drop into a shell
+exec /bin/sh
