@@ -15,6 +15,8 @@ A proactive, low-overhead monitoring system that **predicts application hangs be
 
 ## Quick Start
 
+![K-PHD CLI](assets/K-PHD CLI.png)
+
 ```bash
 # Clone
 git clone https://github.com/Atharva-Mendhulkar/K-PHD.git
@@ -72,49 +74,55 @@ sudo make uninstall
 
 ```
 USAGE
-  kphd <command>
+  kphd <command>         Run a single command
+  kphd                   Enter interactive shell
 
-COMMANDS
-
+LIFECYCLE
   start         Load kernel module and start daemon
   stop          Unload module and stop daemon
   restart       Restart K-PHD (stop + start)
   status        Show current K-PHD status
 
-  stats         Display latency report from /proc/kphd_stats
-  monitor       Live alert stream (foreground daemon)
-  logs          Show recent K-PHD kernel log messages
+MONITORING
+  stats         Display color-coded latency report
+  monitor       Live Netlink alert stream
+  logs          Recent K-PHD kernel log messages
 
-  build         Compile kernel module, daemon, and tests
-  test          Run full validation suite (CPU hog + IO stall)
+DEVELOPMENT
+  build         Compile module, daemon, and tests
+  test          Run validation suite (CPU hog + IO stall)
 
-  install       Install K-PHD system-wide + systemd service
+DEPLOYMENT
+  install       Install system-wide + systemd service
   uninstall     Remove K-PHD from system
 
+INFO
+  examples      Show usage examples
+  clear         Clear screen
   version       Show version
   help          Show help
+
+INTERACTIVE SHELL
+  exit / quit   Exit the interactive shell
 ```
 
-### Usage Examples
+### Interactive Mode
+
+Run `kphd` with no arguments to enter an interactive shell:
 
 ```bash
-# First-time setup
-kphd build
-sudo kphd install
+$ ./kphd
 
-# Daily usage
-sudo kphd start           # Load module + start daemon
-kphd status               # Check if running
-kphd stats                # View latency table (color-coded)
-sudo kphd monitor         # Live Netlink alert stream
-kphd logs                 # Recent dmesg K-PHD messages
-sudo kphd stop            # Clean shutdown
+  ██╗  ██╗              ██████╗  ██╗  ██╗ ██████╗
+  ...
 
-# Stress testing
-sudo kphd test            # Full validation (CPU hog + IO stall)
+  Interactive mode. Type a command, or exit to quit.
+  Commands needing root will auto-elevate with sudo.
 
-# Auto-start on boot (after install)
-sudo systemctl enable kphd
+kphd ▸ status
+kphd ▸ stats
+kphd ▸ test       ← auto-elevates with sudo
+kphd ▸ exit
 ```
 
 ---

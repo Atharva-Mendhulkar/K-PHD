@@ -49,11 +49,20 @@ show_banner() {
 }
 
 # ── Helpers ──
+KPHD_INTERACTIVE=0
+
 need_root() {
     if [ "$(id -u)" -ne 0 ]; then
-        echo -e "${C_RED}✗ This command requires root privileges.${C_RESET}"
-        echo -e "  Run: ${C_BOLD}sudo kphd $*${C_RESET}"
-        exit 1
+        if [ "$KPHD_INTERACTIVE" -eq 1 ]; then
+            # In interactive mode: re-run this command via sudo
+            echo -e "  ${C_DIM}Elevating with sudo...${C_RESET}"
+            sudo "$0" "$@"
+            return 1  # signal caller to skip (already ran via sudo)
+        else
+            echo -e "${C_RED}✗ This command requires root privileges.${C_RESET}"
+            echo -e "  Run: ${C_BOLD}sudo kphd $*${C_RESET}"
+            exit 1
+        fi
     fi
 }
 
@@ -90,7 +99,7 @@ find_daemon() {
 # ── Commands ──
 
 cmd_start() {
-    need_root start
+    need_root start || return 0
     show_banner
 
     echo -e "${C_BRAND}▸ Starting K-PHD...${C_RESET}"
@@ -142,7 +151,7 @@ cmd_start() {
 }
 
 cmd_stop() {
-    need_root stop
+    need_root stop || return 0
     show_banner
 
     echo -e "${C_BRAND}▸ Stopping K-PHD...${C_RESET}"
@@ -319,7 +328,7 @@ cmd_build() {
 }
 
 cmd_install() {
-    need_root install
+    need_root install || return 0
     show_banner
 
     echo -e "${C_BRAND}▸ Installing K-PHD system-wide...${C_RESET}"
@@ -379,7 +388,7 @@ UNIT
 }
 
 cmd_uninstall() {
-    need_root uninstall
+    need_root uninstall || return 0
     show_banner
 
     echo -e "${C_BRAND}▸ Uninstalling K-PHD...${C_RESET}"
@@ -415,7 +424,7 @@ cmd_uninstall() {
 }
 
 cmd_test() {
-    need_root test
+    need_root test || return 0
     show_banner
 
     echo -e "${C_BRAND}▸ Running Validation Suite${C_RESET}"
@@ -479,6 +488,7 @@ cmd_help() {
     echo ""
     echo -e "${C_BOLD}INFO${C_RESET}"
     echo -e "  ${C_BRAND}examples${C_RESET}      Show usage examples"
+    echo -e "  ${C_BRAND}clear${C_RESET}         Clear screen"
     echo -e "  ${C_BRAND}version${C_RESET}       Show version"
     echo -e "  ${C_BRAND}help${C_RESET}          Show this help message"
     echo ""
@@ -522,25 +532,74 @@ cmd_examples() {
     echo ""
 }
 
-# ── Main Dispatch ──
-case "${1:-help}" in
-    start)      cmd_start ;;
-    stop)       cmd_stop ;;
-    restart)    cmd_restart ;;
-    status)     cmd_status ;;
-    stats)      cmd_stats ;;
-    monitor)    cmd_monitor ;;
-    build)      cmd_build ;;
-    test)       cmd_test ;;
-    install)    cmd_install ;;
-    uninstall)  cmd_uninstall ;;
-    logs)       cmd_logs ;;
-    examples)   cmd_examples ;;
-    version|-v|--version)  cmd_version ;;
-    help|-h|--help)        cmd_help ;;
-    *)
-        echo -e "${C_RED}Unknown command: $1${C_RESET}"
-        echo -e "Run ${C_BOLD}kphd help${C_RESET} for usage."
-        exit 1
-        ;;
-esac
+# ── Run a single command by name ──
+dispatch_cmd() {
+    case "$1" in
+        start)      cmd_start ;;
+        stop)       cmd_stop ;;
+        restart)    cmd_restart ;;
+        status)     cmd_status ;;
+        stats)      cmd_stats ;;
+        monitor)    cmd_monitor ;;
+        build)      cmd_build ;;
+        test)       cmd_test ;;
+        install)    cmd_install ;;
+        uninstall)  cmd_uninstall ;;
+        logs)       cmd_logs ;;
+        examples)   cmd_examples ;;
+        clear)      clear && show_banner ;;
+        version|-v|--version)  cmd_version ;;
+        help|-h|--help)        cmd_help ;;
+        "")         ;;  # empty input, just re-prompt
+        *)
+            echo -e "${C_RED}Unknown command: $1${C_RESET}"
+            echo -e "Type ${C_BRAND}help${C_RESET} for available commands."
+            ;;
+    esac
+}
+
+# ── Interactive Shell Mode ──
+cmd_shell() {
+    KPHD_INTERACTIVE=1
+    show_banner
+    if [ "$(id -u)" -eq 0 ]; then
+        echo -e "  ${C_GREEN}● root${C_RESET} ${C_DIM}Interactive mode. Type a command, or ${C_BRAND}exit${C_RESET}${C_DIM} to quit.${C_RESET}"
+    else
+        echo -e "  ${C_DIM}Interactive mode. Type a command, or ${C_BRAND}exit${C_RESET}${C_DIM} to quit.${C_RESET}"
+        echo -e "  ${C_DIM}Commands needing root will auto-elevate with ${C_BRAND}sudo${C_RESET}${C_DIM}.${C_RESET}"
+    fi
+    echo -e "  ${C_DIM}Type ${C_BRAND}help${C_RESET}${C_DIM} to see available commands.${C_RESET}"
+    echo ""
+
+    while true; do
+        echo -ne "${C_BRAND}kphd${C_RESET} ${C_DIM}▸${C_RESET} "
+        read -r input || break   # handle Ctrl+D
+
+        # Trim whitespace
+        input=$(echo "$input" | xargs 2>/dev/null)
+
+        case "$input" in
+            exit|quit|q)
+                echo ""
+                echo -e "${C_DIM}Goodbye.${C_RESET}"
+                echo ""
+                break
+                ;;
+            clear)
+                clear
+                show_banner
+                ;;
+            *)
+                dispatch_cmd "$input"
+                ;;
+        esac
+    done
+}
+
+# ── Main Entry Point ──
+if [ $# -eq 0 ]; then
+    # No arguments → interactive shell
+    cmd_shell
+else
+    dispatch_cmd "$1"
+fi
