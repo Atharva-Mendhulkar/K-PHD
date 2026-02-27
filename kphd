@@ -1,0 +1,546 @@
+#!/bin/bash
+# ──────────────────────────────────────────────────────────────────
+#  K-PHD — Kernel-level Predictive Hang Detector
+#  CLI Management Tool
+# ──────────────────────────────────────────────────────────────────
+set -euo pipefail
+
+# ── Theme: #E24C00 ──
+C_BRAND=$'\033[38;2;226;76;0m'    # #E24C00 — K-PHD orange
+C_BRAND_BG=$'\033[48;2;226;76;0m' # Background variant
+C_WHITE=$'\033[1;97m'
+C_DIM=$'\033[2m'
+C_RED=$'\033[1;31m'
+C_GREEN=$'\033[1;32m'
+C_YELLOW=$'\033[1;33m'
+C_CYAN=$'\033[1;36m'
+C_BOLD=$'\033[1m'
+C_RESET=$'\033[0m'
+
+VERSION="1.0.0"
+MODULE_NAME="kphd"
+PROC_FILE="/proc/kphd_stats"
+DAEMON_BIN="kphd_daemon"
+INSTALL_DIR="/usr/local"
+
+# ── Resolve script / install location ──
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if [ -f "$SCRIPT_DIR/kernel/kphd.ko" ]; then
+    PROJECT_DIR="$SCRIPT_DIR"
+elif [ -f "$INSTALL_DIR/lib/kphd/kphd.ko" ]; then
+    PROJECT_DIR="$INSTALL_DIR/lib/kphd"
+else
+    PROJECT_DIR="$SCRIPT_DIR"
+fi
+
+# ── Banner ──
+show_banner() {
+    local P="                  "  # center padding
+    echo ""
+    echo -e "${P}${C_BRAND}██╗  ██╗              ██████╗  ██╗  ██╗ ██████╗  ${C_RESET}"
+    echo -e "${P}${C_BRAND}██║ ██╔╝              ██╔══██╗ ██║  ██║ ██╔══██╗ ${C_RESET}"
+    echo -e "${P}${C_BRAND}█████╔╝  █████╗       ██████╔╝ ███████║ ██║  ██║ ${C_RESET}"
+    echo -e "${P}${C_BRAND}██╔═██╗  ╚════╝       ██╔═══╝  ██╔══██║ ██║  ██║ ${C_RESET}"
+    echo -e "${P}${C_BRAND}██║  ██╗              ██║      ██║  ██║ ██████╔╝ ${C_RESET}"
+    echo -e "${P}${C_BRAND}╚═╝  ╚═╝              ╚═╝      ╚═╝  ╚═╝ ╚═════╝  ${C_RESET}"
+    echo ""
+    echo -e "${P}${C_DIM}Kernel-level Predictive Hang Detector${C_RESET}  ${C_BRAND}v${VERSION}${C_RESET}"
+    echo ""
+}
+
+# ── Helpers ──
+need_root() {
+    if [ "$(id -u)" -ne 0 ]; then
+        echo -e "${C_RED}✗ This command requires root privileges.${C_RESET}"
+        echo -e "  Run: ${C_BOLD}sudo kphd $*${C_RESET}"
+        exit 1
+    fi
+}
+
+is_loaded() {
+    lsmod | grep -qw "$MODULE_NAME"
+}
+
+is_daemon_running() {
+    pgrep -x "$DAEMON_BIN" > /dev/null 2>&1
+}
+
+find_module() {
+    if [ -f "$PROJECT_DIR/kernel/kphd.ko" ]; then
+        echo "$PROJECT_DIR/kernel/kphd.ko"
+    elif [ -f "$INSTALL_DIR/lib/kphd/kphd.ko" ]; then
+        echo "$INSTALL_DIR/lib/kphd/kphd.ko"
+    else
+        echo ""
+    fi
+}
+
+find_daemon() {
+    if command -v "$DAEMON_BIN" > /dev/null 2>&1; then
+        command -v "$DAEMON_BIN"
+    elif [ -f "$PROJECT_DIR/daemon/$DAEMON_BIN" ]; then
+        echo "$PROJECT_DIR/daemon/$DAEMON_BIN"
+    elif [ -f "$INSTALL_DIR/bin/$DAEMON_BIN" ]; then
+        echo "$INSTALL_DIR/bin/$DAEMON_BIN"
+    else
+        echo ""
+    fi
+}
+
+# ── Commands ──
+
+cmd_start() {
+    need_root start
+    show_banner
+
+    echo -e "${C_BRAND}▸ Starting K-PHD...${C_RESET}"
+    echo ""
+
+    # Load module
+    if is_loaded; then
+        echo -e "  ${C_GREEN}✓${C_RESET} Kernel module already loaded"
+    else
+        local ko
+        ko=$(find_module)
+        if [ -z "$ko" ]; then
+            echo -e "  ${C_RED}✗ kphd.ko not found. Run 'kphd build' first.${C_RESET}"
+            exit 1
+        fi
+        insmod "$ko"
+        echo -e "  ${C_GREEN}✓${C_RESET} Kernel module loaded ${C_DIM}($ko)${C_RESET}"
+    fi
+
+    # Verify /proc
+    if [ -f "$PROC_FILE" ]; then
+        echo -e "  ${C_GREEN}✓${C_RESET} /proc/kphd_stats available"
+    else
+        echo -e "  ${C_YELLOW}⚠${C_RESET} /proc/kphd_stats not found (module may have failed)"
+    fi
+
+    # Start daemon
+    local daemon
+    daemon=$(find_daemon)
+    if [ -z "$daemon" ]; then
+        echo -e "  ${C_YELLOW}⚠${C_RESET} Daemon binary not found. Module is active but no live alerts."
+        echo -e "    Run ${C_BOLD}kphd build${C_RESET} then ${C_BOLD}kphd start${C_RESET} again."
+    elif is_daemon_running; then
+        echo -e "  ${C_GREEN}✓${C_RESET} Daemon already running (PID $(pgrep -x $DAEMON_BIN))"
+    else
+        nohup "$daemon" > /var/log/kphd_daemon.log 2>&1 &
+        sleep 0.5
+        if is_daemon_running; then
+            echo -e "  ${C_GREEN}✓${C_RESET} Daemon started (PID $(pgrep -x $DAEMON_BIN))"
+            echo -e "    ${C_DIM}Log: /var/log/kphd_daemon.log${C_RESET}"
+        else
+            echo -e "  ${C_YELLOW}⚠${C_RESET} Daemon failed to start. Check /var/log/kphd_daemon.log"
+        fi
+    fi
+
+    echo ""
+    echo -e "${C_GREEN}  K-PHD is active and monitoring scheduling latency.${C_RESET}"
+    echo ""
+}
+
+cmd_stop() {
+    need_root stop
+    show_banner
+
+    echo -e "${C_BRAND}▸ Stopping K-PHD...${C_RESET}"
+    echo ""
+
+    # Stop daemon
+    if is_daemon_running; then
+        pkill -x "$DAEMON_BIN" 2>/dev/null || true
+        sleep 0.5
+        echo -e "  ${C_GREEN}✓${C_RESET} Daemon stopped"
+    else
+        echo -e "  ${C_DIM}─${C_RESET} Daemon was not running"
+    fi
+
+    # Unload module
+    if is_loaded; then
+        rmmod "$MODULE_NAME"
+        echo -e "  ${C_GREEN}✓${C_RESET} Kernel module unloaded"
+    else
+        echo -e "  ${C_DIM}─${C_RESET} Module was not loaded"
+    fi
+
+    echo ""
+    echo -e "${C_DIM}  K-PHD stopped.${C_RESET}"
+    echo ""
+}
+
+cmd_restart() {
+    cmd_stop
+    cmd_start
+}
+
+cmd_status() {
+    show_banner
+
+    echo -e "${C_BRAND}▸ Status${C_RESET}"
+    echo ""
+
+    # Module status
+    if is_loaded; then
+        echo -e "  ${C_GREEN}●${C_RESET} Kernel module   ${C_GREEN}loaded${C_RESET}"
+    else
+        echo -e "  ${C_RED}●${C_RESET} Kernel module   ${C_RED}not loaded${C_RESET}"
+    fi
+
+    # Daemon status
+    if is_daemon_running; then
+        echo -e "  ${C_GREEN}●${C_RESET} Daemon          ${C_GREEN}running${C_RESET} (PID $(pgrep -x $DAEMON_BIN))"
+    else
+        echo -e "  ${C_RED}●${C_RESET} Daemon          ${C_RED}not running${C_RESET}"
+    fi
+
+    # Proc file
+    if [ -f "$PROC_FILE" ]; then
+        local count
+        count=$(awk 'NR>4 && NF>=4 {n++} END {print n+0}' "$PROC_FILE")
+        echo -e "  ${C_GREEN}●${C_RESET} /proc/kphd_stats ${C_GREEN}available${C_RESET} (${count} PIDs tracked)"
+    else
+        echo -e "  ${C_RED}●${C_RESET} /proc/kphd_stats ${C_RED}unavailable${C_RESET}"
+    fi
+
+    # Kernel version
+    echo ""
+    echo -e "  ${C_DIM}Kernel: $(uname -r)${C_RESET}"
+    echo ""
+}
+
+cmd_stats() {
+    show_banner
+
+    if [ ! -f "$PROC_FILE" ]; then
+        echo -e "${C_RED}✗ K-PHD is not running. Start it with: ${C_BOLD}sudo kphd start${C_RESET}"
+        exit 1
+    fi
+
+    echo -e "${C_BRAND}▸ Scheduling Latency Report${C_RESET}"
+    echo ""
+
+    # Parse and colorize the output
+    local line_num=0
+    while IFS= read -r line; do
+        line_num=$((line_num + 1))
+
+        if [ $line_num -le 4 ]; then
+            # Header lines
+            echo -e "  ${C_BRAND}${line}${C_RESET}"
+        elif echo "$line" | grep -q "^==="; then
+            echo -e "  ${C_BRAND}${line}${C_RESET}"
+        else
+            # Data lines — colorize by MAX latency
+            local max_ns
+            max_ns=$(echo "$line" | awk '{print $3}' 2>/dev/null)
+            if [ -n "$max_ns" ] && [ "$max_ns" -gt 5000000 ] 2>/dev/null; then
+                echo -e "  ${C_RED}${line}${C_RESET}"
+            elif [ -n "$max_ns" ] && [ "$max_ns" -gt 1000000 ] 2>/dev/null; then
+                echo -e "  ${C_YELLOW}${line}${C_RESET}"
+            elif [ -n "$max_ns" ] && [ "$max_ns" -gt 0 ] 2>/dev/null; then
+                echo -e "  ${C_GREEN}${line}${C_RESET}"
+            else
+                echo -e "  ${line}"
+            fi
+        fi
+    done < "$PROC_FILE"
+
+    echo ""
+    echo -e "  ${C_DIM}Legend: ${C_GREEN}■${C_RESET}${C_DIM} Normal (<1ms)  ${C_YELLOW}■${C_RESET}${C_DIM} Warning (1-5ms)  ${C_RED}■${C_RESET}${C_DIM} Danger (>5ms)${C_RESET}"
+    echo ""
+}
+
+cmd_monitor() {
+    show_banner
+
+    if ! is_loaded; then
+        echo -e "${C_RED}✗ K-PHD module not loaded. Run: ${C_BOLD}sudo kphd start${C_RESET}"
+        exit 1
+    fi
+
+    local daemon
+    daemon=$(find_daemon)
+    if [ -z "$daemon" ]; then
+        echo -e "${C_RED}✗ Daemon binary not found. Run: ${C_BOLD}kphd build${C_RESET}"
+        exit 1
+    fi
+
+    echo -e "${C_BRAND}▸ Live Monitoring Mode${C_RESET}"
+    echo -e "${C_DIM}  Press Ctrl+C to stop${C_RESET}"
+    echo ""
+
+    # Run daemon in foreground
+    exec "$daemon"
+}
+
+cmd_build() {
+    show_banner
+
+    echo -e "${C_BRAND}▸ Building K-PHD...${C_RESET}"
+    echo ""
+
+    # Build kernel module
+    if [ -d "$PROJECT_DIR/kernel" ]; then
+        echo -e "  ${C_CYAN}Building kernel module...${C_RESET}"
+        make -C "$PROJECT_DIR/kernel" clean > /dev/null 2>&1 || true
+        make -C "$PROJECT_DIR/kernel"
+        echo -e "  ${C_GREEN}✓${C_RESET} kphd.ko built"
+    else
+        echo -e "  ${C_RED}✗ kernel/ directory not found${C_RESET}"
+    fi
+
+    echo ""
+
+    # Build daemon
+    if [ -d "$PROJECT_DIR/daemon" ]; then
+        echo -e "  ${C_CYAN}Building daemon...${C_RESET}"
+        make -C "$PROJECT_DIR/daemon" clean > /dev/null 2>&1 || true
+        make -C "$PROJECT_DIR/daemon"
+        echo -e "  ${C_GREEN}✓${C_RESET} kphd_daemon built"
+    else
+        echo -e "  ${C_RED}✗ daemon/ directory not found${C_RESET}"
+    fi
+
+    echo ""
+
+    # Build stress tests
+    if [ -d "$PROJECT_DIR/tests" ]; then
+        echo -e "  ${C_CYAN}Building stress tests...${C_RESET}"
+        make -C "$PROJECT_DIR/tests" clean > /dev/null 2>&1 || true
+        make -C "$PROJECT_DIR/tests"
+        echo -e "  ${C_GREEN}✓${C_RESET} Stress tests built"
+    fi
+
+    echo ""
+    echo -e "${C_GREEN}  Build complete!${C_RESET}"
+    echo ""
+}
+
+cmd_install() {
+    need_root install
+    show_banner
+
+    echo -e "${C_BRAND}▸ Installing K-PHD system-wide...${C_RESET}"
+    echo ""
+
+    # Install CLI
+    install -Dm755 "$SCRIPT_DIR/kphd" "$INSTALL_DIR/bin/kphd"
+    echo -e "  ${C_GREEN}✓${C_RESET} CLI → $INSTALL_DIR/bin/kphd"
+
+    # Install daemon
+    if [ -f "$PROJECT_DIR/daemon/$DAEMON_BIN" ]; then
+        install -Dm755 "$PROJECT_DIR/daemon/$DAEMON_BIN" "$INSTALL_DIR/bin/$DAEMON_BIN"
+        echo -e "  ${C_GREEN}✓${C_RESET} Daemon → $INSTALL_DIR/bin/$DAEMON_BIN"
+    fi
+
+    # Install kernel module
+    if [ -f "$PROJECT_DIR/kernel/kphd.ko" ]; then
+        install -Dm644 "$PROJECT_DIR/kernel/kphd.ko" "$INSTALL_DIR/lib/kphd/kphd.ko"
+        echo -e "  ${C_GREEN}✓${C_RESET} Module → $INSTALL_DIR/lib/kphd/kphd.ko"
+    fi
+
+    # Install systemd service
+    if [ -d /etc/systemd/system ]; then
+        cat > /etc/systemd/system/kphd.service << 'UNIT'
+[Unit]
+Description=K-PHD Kernel-level Predictive Hang Detector
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=/sbin/insmod /usr/local/lib/kphd/kphd.ko
+ExecStart=/usr/local/bin/kphd_daemon
+ExecStopPost=/sbin/rmmod kphd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+        echo -e "  ${C_GREEN}✓${C_RESET} Systemd service → /etc/systemd/system/kphd.service"
+        systemctl daemon-reload
+    fi
+
+    echo ""
+    echo -e "${C_GREEN}  Installation complete!${C_RESET}"
+    echo ""
+    echo -e "  ${C_BOLD}Quick start:${C_RESET}"
+    echo -e "    sudo kphd start           Start monitoring"
+    echo -e "    kphd status               Check if running"
+    echo -e "    kphd stats                View latency data"
+    echo -e "    sudo kphd monitor         Live alert stream"
+    echo ""
+    echo -e "  ${C_BOLD}Systemd (optional):${C_RESET}"
+    echo -e "    sudo systemctl enable kphd    Auto-start on boot"
+    echo -e "    sudo systemctl start kphd     Start via systemd"
+    echo ""
+}
+
+cmd_uninstall() {
+    need_root uninstall
+    show_banner
+
+    echo -e "${C_BRAND}▸ Uninstalling K-PHD...${C_RESET}"
+    echo ""
+
+    # Stop if running
+    if is_daemon_running; then
+        pkill -x "$DAEMON_BIN" 2>/dev/null || true
+        echo -e "  ${C_GREEN}✓${C_RESET} Daemon stopped"
+    fi
+    if is_loaded; then
+        rmmod "$MODULE_NAME" 2>/dev/null || true
+        echo -e "  ${C_GREEN}✓${C_RESET} Module unloaded"
+    fi
+
+    # Remove systemd service
+    if [ -f /etc/systemd/system/kphd.service ]; then
+        systemctl disable kphd 2>/dev/null || true
+        rm -f /etc/systemd/system/kphd.service
+        systemctl daemon-reload
+        echo -e "  ${C_GREEN}✓${C_RESET} Systemd service removed"
+    fi
+
+    # Remove files
+    rm -f "$INSTALL_DIR/bin/kphd"
+    rm -f "$INSTALL_DIR/bin/$DAEMON_BIN"
+    rm -rf "$INSTALL_DIR/lib/kphd"
+
+    echo -e "  ${C_GREEN}✓${C_RESET} All files removed"
+    echo ""
+    echo -e "${C_DIM}  K-PHD has been uninstalled.${C_RESET}"
+    echo ""
+}
+
+cmd_test() {
+    need_root test
+    show_banner
+
+    echo -e "${C_BRAND}▸ Running Validation Suite${C_RESET}"
+    echo ""
+
+    if [ -f "$PROJECT_DIR/tests/run_validation.sh" ]; then
+        bash "$PROJECT_DIR/tests/run_validation.sh"
+    else
+        echo -e "${C_RED}✗ tests/run_validation.sh not found${C_RESET}"
+        exit 1
+    fi
+}
+
+cmd_logs() {
+    show_banner
+
+    echo -e "${C_BRAND}▸ K-PHD Kernel Logs${C_RESET}"
+    echo ""
+
+    dmesg | grep "K-PHD:" | tail -n 30 | while IFS= read -r line; do
+        if echo "$line" | grep -qi "danger\|fail\|error"; then
+            echo -e "  ${C_RED}${line}${C_RESET}"
+        elif echo "$line" | grep -qi "warn"; then
+            echo -e "  ${C_YELLOW}${line}${C_RESET}"
+        else
+            echo -e "  ${C_DIM}${line}${C_RESET}"
+        fi
+    done
+
+    echo ""
+}
+
+cmd_version() {
+    show_banner
+}
+
+cmd_help() {
+    show_banner
+
+    echo -e "${C_BOLD}USAGE${C_RESET}"
+    echo -e "  ${C_BRAND}kphd${C_RESET} <command>"
+    echo ""
+    echo -e "${C_BOLD}LIFECYCLE${C_RESET}"
+    echo -e "  ${C_BRAND}start${C_RESET}         Load kernel module and start daemon"
+    echo -e "  ${C_BRAND}stop${C_RESET}          Unload module and stop daemon"
+    echo -e "  ${C_BRAND}restart${C_RESET}       Restart K-PHD (stop + start)"
+    echo -e "  ${C_BRAND}status${C_RESET}        Show current K-PHD status"
+    echo ""
+    echo -e "${C_BOLD}MONITORING${C_RESET}"
+    echo -e "  ${C_BRAND}stats${C_RESET}         Display color-coded latency report"
+    echo -e "  ${C_BRAND}monitor${C_RESET}       Live Netlink alert stream"
+    echo -e "  ${C_BRAND}logs${C_RESET}          Recent K-PHD kernel log messages"
+    echo ""
+    echo -e "${C_BOLD}DEVELOPMENT${C_RESET}"
+    echo -e "  ${C_BRAND}build${C_RESET}         Compile module, daemon, and tests"
+    echo -e "  ${C_BRAND}test${C_RESET}          Run validation suite (CPU hog + IO stall)"
+    echo ""
+    echo -e "${C_BOLD}DEPLOYMENT${C_RESET}"
+    echo -e "  ${C_BRAND}install${C_RESET}       Install system-wide + systemd service"
+    echo -e "  ${C_BRAND}uninstall${C_RESET}     Remove K-PHD from system"
+    echo ""
+    echo -e "${C_BOLD}INFO${C_RESET}"
+    echo -e "  ${C_BRAND}examples${C_RESET}      Show usage examples"
+    echo -e "  ${C_BRAND}version${C_RESET}       Show version"
+    echo -e "  ${C_BRAND}help${C_RESET}          Show this help message"
+    echo ""
+    echo -e "${C_BOLD}REQUIREMENTS${C_RESET}"
+    echo -e "  • Linux kernel headers  ${C_DIM}($(uname -r))${C_RESET}"
+    echo -e "  • libnl-genl-3.0        ${C_DIM}(Netlink library)${C_RESET}"
+    echo -e "  • gcc, make             ${C_DIM}(Build tools)${C_RESET}"
+    echo ""
+    echo -e "${C_DIM}https://github.com/Atharva-Mendhulkar/K-PHD${C_RESET}"
+    echo ""
+}
+
+cmd_examples() {
+    show_banner
+
+    echo -e "${C_BOLD}EXAMPLES${C_RESET}"
+    echo ""
+    echo -e "  ${C_BRAND}▸ First-time setup${C_RESET}"
+    echo ""
+    echo -e "    kphd build                    ${C_DIM}# Compile everything${C_RESET}"
+    echo -e "    sudo kphd install             ${C_DIM}# Install to /usr/local${C_RESET}"
+    echo ""
+    echo -e "  ${C_BRAND}▸ Start monitoring${C_RESET}"
+    echo ""
+    echo -e "    sudo kphd start               ${C_DIM}# Load module + start daemon${C_RESET}"
+    echo -e "    kphd status                   ${C_DIM}# Check everything is running${C_RESET}"
+    echo -e "    kphd stats                    ${C_DIM}# View color-coded latency table${C_RESET}"
+    echo -e "    sudo kphd monitor             ${C_DIM}# Live Netlink alert stream${C_RESET}"
+    echo -e "    kphd logs                     ${C_DIM}# Check kernel log for alerts${C_RESET}"
+    echo -e "    sudo kphd stop                ${C_DIM}# Clean shutdown${C_RESET}"
+    echo ""
+    echo -e "  ${C_BRAND}▸ Stress testing${C_RESET}"
+    echo ""
+    echo -e "    sudo kphd test                ${C_DIM}# CPU hog + IO stall validation${C_RESET}"
+    echo ""
+    echo -e "  ${C_BRAND}▸ Auto-start on boot${C_RESET}"
+    echo ""
+    echo -e "    sudo kphd install             ${C_DIM}# Creates systemd service${C_RESET}"
+    echo -e "    sudo systemctl enable kphd    ${C_DIM}# Enable auto-start${C_RESET}"
+    echo -e "    sudo systemctl start kphd     ${C_DIM}# Start via systemd${C_RESET}"
+    echo ""
+}
+
+# ── Main Dispatch ──
+case "${1:-help}" in
+    start)      cmd_start ;;
+    stop)       cmd_stop ;;
+    restart)    cmd_restart ;;
+    status)     cmd_status ;;
+    stats)      cmd_stats ;;
+    monitor)    cmd_monitor ;;
+    build)      cmd_build ;;
+    test)       cmd_test ;;
+    install)    cmd_install ;;
+    uninstall)  cmd_uninstall ;;
+    logs)       cmd_logs ;;
+    examples)   cmd_examples ;;
+    version|-v|--version)  cmd_version ;;
+    help|-h|--help)        cmd_help ;;
+    *)
+        echo -e "${C_RED}Unknown command: $1${C_RESET}"
+        echo -e "Run ${C_BOLD}kphd help${C_RESET} for usage."
+        exit 1
+        ;;
+esac
