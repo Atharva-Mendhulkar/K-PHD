@@ -1,13 +1,7 @@
 # **K-PHD: Kernel-level Predictive Hang Detector**
 
-```
-██╗  ██╗     ██████╗ ██╗  ██╗██████╗ 
-██║ ██╔╝     ██╔══██╗██║  ██║██╔══██╗
-█████╔╝█████╗██████╔╝███████║██║  ██║
-██╔═██╗╚════╝██╔═══╝ ██╔══██║██║  ██║
-██║  ██╗     ██║     ██║  ██║██████╔╝
-╚═╝  ╚═╝     ╚═╝     ╚═╝  ╚═╝╚═════╝ 
-```
+![K-PHD CLI](assets/K-PHD%20CLI.png)
+
 
 A proactive, low-overhead monitoring system that **predicts application hangs before they happen**. K-PHD embeds into the Linux kernel's scheduling hot-path, measures nanosecond-level process wait times, and applies statistical heuristics to flag impending CPU starvation.
 
@@ -15,7 +9,6 @@ A proactive, low-overhead monitoring system that **predicts application hangs be
 
 ## Quick Start
 
-![K-PHD CLI](assets/K-PHD CLI.png)
 
 ```bash
 # Clone
