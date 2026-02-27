@@ -267,11 +267,65 @@ K-PHD: Module unloaded, all resources freed.
 
 ## Upcoming Steps
 
+---
+
+## Session 6 — 2026-02-27 (Phase 4: Exporting Data)
+
+---
+
+### Step 14: Implemented `/proc/kphd_stats` with `seq_file`
+
+**Changes to `kphd.c`:**
+- Added `<linux/proc_fs.h>` and `<linux/seq_file.h>`.
+- Created `/proc/kphd_stats` via `proc_create("kphd_stats", 0444, NULL, &kphd_proc_ops)`.
+- Implemented `kphd_stats_show()` using `seq_printf()` to safely iterate the hash table and format a latency report table.
+- Enriched `kphd_entry` with `last_latency`, `total_latency`, and `sample_count` for average latency calculation.
+- `proc_remove()` called in `kphd_exit()` for clean teardown.
+
+**Result:** ✅ **Phase 4 Complete.**
+```
+K-PHD: Initializing Phase 4 — /proc/kphd_stats
+K-PHD: /proc/kphd_stats created, hooks registered.
+
+cat /proc/kphd_stats:
+PID      LAST(ns)       MAX(ns)        AVG(ns)        SAMPLES
+63       255            911            281            28
+10       978492         978492         117161         9
+```
+
+---
+
+---
+
+## Session 7 — 2026-02-27 (Phase 5: Netlink Integration)
+
+---
+
+### Step 15: Implemented Generic Netlink Multicast Alerts
+
+**Changes to `kphd.c`:**
+- Added `<net/genetlink.h>` for Generic Netlink API.
+- Defined GENL family `KPHD` with multicast group `kphd_alerts`.
+- Implemented `kphd_send_alert()` — packs `[PID, latency_ns, max_latency]` into an `sk_buff` and broadcasts via `genlmsg_multicast()`.
+- Alert is sent **outside the spinlock** to prevent deadlocks (`genlmsg_new` with `GFP_ATOMIC`).
+- Proper cleanup: `genl_unregister_family()` in exit path.
+
+**Result:** ✅ **Phase 5 Complete.**
+```
+K-PHD: Initializing Phase 5 — Netlink Integration
+K-PHD: Netlink family 'KPHD' registered, /proc ready, hooks active.
+K-PHD: Module unloaded, Netlink family removed, resources freed.
+```
+
+---
+
+## Upcoming Steps
+
 | Phase | Next Action |
 |---|---|
-| Phase 4 | Create `/proc/kphd_stats` via `proc_create()` |
-| Phase 4 | Implement `seq_file` operations to dump hash table |
-| Phase 5 | Define Netlink family for real-time alerts |
+| Phase 6 | Create userspace daemon to listen on Netlink `kphd_alerts` |
+| Phase 6 | Implement EMA calculation for latency prediction |
+| Phase 7 | Write stress tests and validate triggers |
 
 ---
 

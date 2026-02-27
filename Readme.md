@@ -141,9 +141,9 @@ Developing kernel modules requires strict isolation. A single memory leak in ker
 | 1 | LKM Scaffolding (`module_init`, `module_exit`, `Makefile`) | ✅ Complete |
 | 2 | Hooking the Scheduler (`sched_wakeup`, `sched_switch`) | ✅ Complete |
 | 3 | Data Structures & Concurrency (Hash Table, Spinlocks) | ✅ Complete |
-| 4 | Exporting Data (`/proc/kphd_stats`, `seq_file`) | 🔄 In Progress |
-| 5 | Netlink Integration (Real-time streaming) | ⬜ Pending |
-| 6 | Userspace Daemon (EMA predictor) | ⬜ Pending |
+| 4 | Exporting Data (`/proc/kphd_stats`, `seq_file`) | ✅ Complete |
+| 5 | Netlink Integration (Real-time streaming) | ✅ Complete |
+| 6 | Userspace Daemon (EMA predictor) | 🔄 In Progress |
 | 7 | Stress Testing & Validation | ⬜ Pending |
 
 ### Key Milestones
