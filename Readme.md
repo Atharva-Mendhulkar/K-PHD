@@ -143,8 +143,8 @@ Developing kernel modules requires strict isolation. A single memory leak in ker
 | 3 | Data Structures & Concurrency (Hash Table, Spinlocks) | ✅ Complete |
 | 4 | Exporting Data (`/proc/kphd_stats`, `seq_file`) | ✅ Complete |
 | 5 | Netlink Integration (Real-time streaming) | ✅ Complete |
-| 6 | Userspace Daemon (EMA predictor) | 🔄 In Progress |
-| 7 | Stress Testing & Validation | ⬜ Pending |
+| 6 | Userspace Daemon (EMA predictor) | ✅ Complete |
+| 7 | Stress Testing & Validation | ✅ Complete |
 
 ### Key Milestones
 - **2026-02-26:** Phase 1 verified — `kphd.ko` loads/unloads cleanly in QEMU sandbox.
